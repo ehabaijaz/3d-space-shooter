@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://curgase0gamgo"]
+
+[ext_resource type="PackedScene" uid="uid://c6i6p0mbi3crg" path="res://scenes/player.tscn" id="1_uwrxv"]
+[ext_resource type="Script" uid="uid://dr0l18vwpe8a5" path="res://scenes/game.gd" id="1_yqjtg"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_uwrxv"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_yqjtg"]
+sky_material = SubResource("ProceduralSkyMaterial_uwrxv")
+
+[sub_resource type="Environment" id="Environment_lnu2h"]
+background_mode = 2
+sky = SubResource("Sky_yqjtg")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yqjtg"]
+albedo_color = Color(0.8117647, 0.5764706, 0.37254903, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_lnu2h"]
+material = SubResource("StandardMaterial3D_yqjtg")
+size = Vector2(100, 100)
+
+[node name="Game" type="Node3D" unique_id=292227232]
+script = ExtResource("1_yqjtg")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1791033214]
+environment = SubResource("Environment_lnu2h")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=762229497]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Player" parent="." unique_id=1257617436 instance=ExtResource("1_uwrxv")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1362979807]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1184696, 0)
+mesh = SubResource("PlaneMesh_lnu2h")
+
+[node name="Camera3D2" type="Camera3D" parent="." unique_id=1442332711]
+transform = Transform3D(1, 0, 0, 0, 0.9740748, 0.22622631, 0, -0.22622631, 0.9740748, 0, 2.9045959, 4.444346)
+
+[node name="Lasers" type="Node3D" parent="." unique_id=1495193850]
+
+[connection signal="shoot_laser" from="Player" to="." method="_on_player_shoot_laser"]
